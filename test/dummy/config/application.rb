@@ -3,7 +3,7 @@ require_relative "boot"
 require "rails/all"
 
 Bundler.require(*Rails.groups)
-require "asset_tasks"
+require "asset_tasks" if Rails.env != "production"
 
 module Dummy
   class Application < Rails::Application

@@ -1,8 +1,14 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.11.2"
 
-set :application, "my_app_name"
-set :repo_url, "git@example.com:me/my_repo.git"
+set :application, "asset_tasks"
+set :scm, :copy
+set :rbenv_ruby, "2.6.4"
+set :bundle_env_variables, {
+  BUNDLE_BUILD__SQLITE3: "--with-sqlite3-dir=/opt/sqlite/sqlite3",
+}
+
+# set :repo_url, "git@example.com:me/my_repo.git"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -24,7 +30,7 @@ set :repo_url, "git@example.com:me/my_repo.git"
 # append :linked_files, "config/database.yml"
 
 # Default value for linked_dirs is []
-# append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -37,3 +43,12 @@ set :repo_url, "git@example.com:me/my_repo.git"
 
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
+
+set :rails_env, :production
+
+after "deploy:publishing", "deploy:restart"
+namespace :deploy do
+  task :restart do
+    invoke "unicorn:restart"
+  end
+end
