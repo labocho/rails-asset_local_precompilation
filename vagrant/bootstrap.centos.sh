@@ -31,13 +31,14 @@ nodenv install 12.13.0
 nodenv global 12.13.0
 npm install -g yarn@1.19.1
 
-# sqlite3
-curl -O https://www.sqlite.org/2019/sqlite-autoconf-3300100.tar.gz
-tar xzvf sqlite-autoconf-3300100.tar.gz
-cd sqlite-autoconf-3300100
-./configure --prefix=/opt/sqlite/sqlite3
-make
-sudo make install
+# mysql
+sudo yum install -y mariadb mariadb-server mariadb-devel
+sudo systemctl enable mariadb
+sudo systemctl start mariadb
+echo "CREATE DATABASE asset_tasks CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci" | mysql -uroot --password=
+
+# dependencies
+yum install -y gcc-c++ ImageMagick
 
 sudo mkdir -p /var/www/asset_tasks
 sudo chown vagrant:vagrant /var/www/asset_tasks
