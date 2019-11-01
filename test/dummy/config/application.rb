@@ -3,7 +3,8 @@ require_relative "boot"
 require "rails/all"
 
 Bundler.require(*Rails.groups)
-require "asset_tasks" if Rails.env != "production"
+$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
+require "asset_tasks"
 
 module Dummy
   class Application < Rails::Application

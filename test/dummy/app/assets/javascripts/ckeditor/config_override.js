@@ -1,5 +1,5 @@
 //= require ckeditor/config
-//= require ./load_plugins
+//= require ./register_plugins
 (function() {
   var originalConfig = CKEDITOR.editorConfig;
   CKEDITOR.editorConfig = function (config) {

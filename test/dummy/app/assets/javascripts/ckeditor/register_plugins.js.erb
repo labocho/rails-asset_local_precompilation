@@ -1,0 +1,3 @@
+<%- Dir.glob("*", base: Rails.root + "app/assets/javascripts/ckeditor/plugins").each do |plugin| -%>
+CKEDITOR.plugins.addExternal('<%= plugin %>', '<%= asset_path("/assets/ckeditor/plugins/#{plugin}/plugin.js") %>');
+<%- end -%>

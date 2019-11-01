@@ -60,3 +60,16 @@ namespace :deploy do
     invoke "unicorn:legacy_restart"
   end
 end
+
+# for development
+namespace :development do
+  task :upload_gem do
+    on roles(:web) do |server|
+      run_locally do
+        execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", File.expand_path("../../../lib", __dir__) + "/", "#{server.user}@#{server.hostname}:#{release_path}/lib"
+      end
+    end
+  end
+end
+
+after "bundler:install", "development:upload_gem"

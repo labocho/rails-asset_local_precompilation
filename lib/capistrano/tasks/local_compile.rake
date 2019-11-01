@@ -8,7 +8,6 @@ namespace :assets do
       # tmp/cache/assets があると、ckeditor の asset_path の変更が反映されない場合がある
       execute "rm -rf public/packs tmp/cache/assets"
       execute "bundle exec rake assets:clean assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)}"
-      # execute "bundle exec rake ckeditor:precompile --trace RAILS_ENV=#{fetch(:rails_env)}"
       execute "yarn install --check-files"
     end
 

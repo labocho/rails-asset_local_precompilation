@@ -2,7 +2,16 @@
 Short description and motivation.
 
 ## Usage
-How to use my plugin.
+
+```ruby
+rails g asset_tasks
+```
+
+Edit `Capfile`
+
+```ruby
+require "capistrano/local_compile"
+```
 
 ## Installation
 Add this line to your application's Gemfile:
