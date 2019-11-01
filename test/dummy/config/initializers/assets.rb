@@ -17,3 +17,5 @@ Rails.application.config.assets.precompile += %w(
   ckeditor/application.js
   ckeditor/config.js
 )
+
+Rails.application.config.assets.precompile += Dir.glob("ckeditor/plugins/**/*", base: (Rails.root + "app/assets/javascripts").to_s).to_a
