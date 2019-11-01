@@ -15,7 +15,7 @@ Rails.application.config.assets.precompile += %w(application.js)
 Rails.application.config.assets.precompile += %w(
   ckeditor/application.css
   ckeditor/application.js
-  ckeditor/config.js
+  ckeditor/config_override.js
 )
 
 Rails.application.config.assets.precompile += Dir.glob("ckeditor/plugins/**/*", base: (Rails.root + "app/assets/javascripts").to_s).to_a

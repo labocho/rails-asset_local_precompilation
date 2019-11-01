@@ -3,6 +3,7 @@ AllCops:
     - bin/*
     - node_modules/**/*
     - test/dummy/bin/*
+    - test/dummy/db/schema.rb
     - test/dummy/node_modules/**/*
 
 Layout/CaseIndentation:
