@@ -2,6 +2,8 @@ AllCops:
   Exclude:
     - bin/*
     - node_modules/**/*
+    - test/dummy/bin/*
+    - test/dummy/node_modules/**/*
 
 Layout/CaseIndentation:
   EnforcedStyle: end
@@ -62,6 +64,10 @@ Style/AsciiComments:
 
 Style/BlockDelimiters:
   Enabled: false
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - test/dummy/app/models/ckeditor/*.rb
 
 Style/Documentation:
   Enabled: false
