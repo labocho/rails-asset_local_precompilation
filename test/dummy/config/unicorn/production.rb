@@ -26,7 +26,7 @@ working_directory "/var/www/asset_tasks/current" # available in 0.94.0+
 # listen on both a Unix domain socket and a TCP port,
 # we use a shorter backlog for quicker failover when busy
 # listen "/path/to/.unicorn.sock", :backlog => 64
-listen 8080, :tcp_nopush => true
+listen 8080, tcp_nopush: true
 
 # nuke workers after 30 seconds instead of 60 seconds (the default)
 timeout 30
@@ -54,10 +54,10 @@ check_client_connection false
 # local variable to guard against running a hook multiple times
 run_once = true
 
-before_fork do |server, worker|
+before_fork do |_server, _worker|
   # the following is highly recomended for Rails + "preload_app true"
   # as there's no need for the master process to hold a connection
-  defined?(ActiveRecord::Base) and
+  defined?(ActiveRecord::Base) &&
     ActiveRecord::Base.connection.disconnect!
 
   # Occasionally, it may be necessary to run non-idempotent code in the
@@ -93,13 +93,13 @@ before_fork do |server, worker|
   # sleep 1
 end
 
-after_fork do |server, worker|
+after_fork do |_server, _worker|
   # per-process listener ports for debugging/admin/migrations
   # addr = "127.0.0.1:#{9293 + worker.nr}"
   # server.listen(addr, :tries => -1, :delay => 5, :tcp_nopush => true)
 
   # the following is *required* for Rails + "preload_app true",
-  defined?(ActiveRecord::Base) and
+  defined?(ActiveRecord::Base) &&
     ActiveRecord::Base.establish_connection
 
   # if preload_app is true, then you may also want to check and

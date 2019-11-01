@@ -6,13 +6,15 @@ set :scm, :copy
 set :exclude_dir, %w(node_modules public/assets public/packs)
 
 set :rbenv_ruby, "2.6.4"
-set :default_env, {
+set(
+  :default_env,
   PATH: "/home/vagrant/.nodenv/shims:/home/vagrant/.nodenv/bin:/home/vagrant/.rbenv/shims:/home/vagrant/.rbenv/bin:/home/vagrant/.nodenv/shims:/home/vagrant/.nodenv/bin:/home/vagrant/.rbenv/shims:/home/vagrant/.rbenv/bin:/home/vagrant/.rbenv/shims:/home/vagrant/.rbenv/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/vagrant/.local/bin:/home/vagrant/bin:/home/vagrant/.local/bin:/home/vagrant/bin:/home/vagrant/.local/bin:/home/vagrant/bin",
   NODENV_VERSION: "12.13.0",
-}
-set :bundle_env_variables, {
+)
+set(
+  :bundle_env_variables,
   BUNDLE_BUILD__SQLITE3: "--with-sqlite3-dir=/opt/sqlite/sqlite3",
-}
+)
 
 # set :repo_url, "git@example.com:me/my_repo.git"
 
