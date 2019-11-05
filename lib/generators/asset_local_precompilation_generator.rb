@@ -1,11 +1,11 @@
-class AssetTasksGenerator < Rails::Generators::Base
-  def create_asset_tasks_file
-    create_file "config/initializers/asset_tasks.rb", <<~RUBY
-      AssetTasks.configure do |config|
+class AssetLocalPrecompilationGenerator < Rails::Generators::Base
+  def create_asset_local_precompilation_file
+    create_file "config/initializers/asset_local_precompilation.rb", <<~RUBY
+      Rails::AssetLocalPrecompilation.configure do |config|
         # config.use_asset_sync = false
         # config.use_ckeditor = false
       end
-      AssetTasks.initialize!
+      Rails::AssetLocalPrecompilation.initialize!
     RUBY
 
     create_file "app/assets/javascripts/ckeditor/register_plugins.js.erb", <<~ERB

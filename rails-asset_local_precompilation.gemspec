@@ -1,17 +1,17 @@
 $:.push File.expand_path("lib", __dir__)
 
 # Maintain your gem's version:
-require "asset_tasks/version"
+require "rails/asset_local_precompilation/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |spec|
-  spec.name        = "asset_tasks"
-  spec.version     = AssetTasks::VERSION
+  spec.name        = "rails-asset_local_precompilation"
+  spec.version     = Rails::AssetLocalPrecompilation::VERSION
   spec.authors     = ["labocho"]
   spec.email       = ["labocho@penguinlab.jp"]
   # spec.homepage    = "TODO"
-  spec.summary     = "Set of capistrano/rake task for local asset compiling_with asset_sync, ckeditor"
-  spec.description = "Set of capistrano/rake task for local asset compiling_with asset_sync, ckeditor"
+  spec.summary     = "Set of capistrano task and initializer for local asset compiling_with asset_sync, ckeditor"
+  spec.description = "Set of capistrano task and initializer for local asset compiling_with asset_sync, ckeditor"
   spec.license     = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

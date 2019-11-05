@@ -43,4 +43,4 @@ require "capistrano3/unicorn"
 Dir.glob("lib/capistrano/tasks/*.rake").each {|r| import r }
 
 $LOAD_PATH.unshift File.expand_path("../../lib", __dir__) # for development
-require "capistrano/local_compile"
+require "capistrano/asset_local_precompilation"

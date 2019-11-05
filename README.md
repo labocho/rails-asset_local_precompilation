@@ -1,19 +1,20 @@
-# AssetTasks
-Short description and motivation.
+# Rails::AssetLocalPrecompilation
+
+Set of capistrano task and initializer for local asset precompilation with asset_sync, ckeditor.
 
 ## Usage
 
 ```ruby
-rails g asset_tasks
+rails g asset_local_precompilation
 ```
 
 Edit `Capfile`
 
 ```ruby
-require "capistrano/local_compile"
+require "capistrano/asset_local_precompilation"
 ```
 
-Edit `config/initializers/asset_tasks.rb` to configure.
+Edit `config/initializers/asset_local_precompilation.rb` to configure.
 
 If you use asset_sync, create `shares/config/asset_sync.yml` on server and edit `config/deploy/production.rb`
 

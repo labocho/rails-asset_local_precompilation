@@ -4,7 +4,7 @@ require "rails/all"
 
 Bundler.require(*Rails.groups)
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
-require "asset_tasks"
+require "rails/asset_local_precompilation"
 
 module Dummy
   class Application < Rails::Application

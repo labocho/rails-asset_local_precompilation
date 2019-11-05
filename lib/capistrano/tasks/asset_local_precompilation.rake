@@ -4,7 +4,7 @@ set :fog_directory, nil
 set :fog_region, nil
 
 namespace :assets do
-  task :local_compile_and_sync do
+  task :local_precompile_and_sync do
     run_locally do
       # 通常 assets:precompile 後にassets:syncが実行されるが、config/initializers/asset_sync.rb で config.run_on_precompile = false としてこの動作を止めている。
       # assets:precompile 後に webpacker:compile が呼ばれる
@@ -39,5 +39,5 @@ namespace :assets do
     end
   end
 
-  after "deploy:updated", "assets:local_compile_and_sync"
+  after "deploy:updated", "assets:local_precompile_and_sync"
 end
