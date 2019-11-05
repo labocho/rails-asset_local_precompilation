@@ -25,9 +25,9 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  spec.add_dependency "activerecord-nulldb-adapter"
+  spec.add_dependency "activerecord-nulldb-adapter", "~> 0.4"
   spec.add_dependency "capistrano", "~> 3.11"
-  spec.add_dependency "rails", "~> 6.0.0"
+  spec.add_dependency "rails", ">= 5.0.0"
 
   spec.add_development_dependency "rubocop", "~> 0.75.1"
   spec.add_development_dependency "sqlite3", "~> 1.4.1"
