@@ -1,4 +1,5 @@
 set :rsync_ssh_command, "ssh"
+set :use_asset_sync, false
 
 namespace :assets do
   task :local_compile_and_sync do
@@ -20,9 +21,11 @@ namespace :assets do
         execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", "public/packs/", "#{server.user}@#{server.hostname}:#{release_path}/public/packs"
       end
 
-      # within release_path do
-      #   execute :bundle, "exec rake assets:sync --trace RAILS_ENV=#{fetch(:rails_env)}"
-      # end
+      if fetch(:use_asset_sync)
+        within release_path do
+          execute :bundle, "exec rake assets:sync --trace RAILS_ENV=#{fetch(:rails_env)}"
+        end
+      end
     end
   end
 

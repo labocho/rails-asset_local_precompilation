@@ -11,6 +11,7 @@ require "shellwords"
 ssh_private_key = File.expand_path("#{__dir__}/../../../../vagrant/.vagrant/machines/dev/virtualbox/private_key")
 server "192.168.33.20", user: "vagrant", roles: %w(app db web), ssh_options: {keys: [ssh_private_key]}
 set :rsync_ssh_command, "ssh -i #{ssh_private_key.shellescape}"
+set :use_asset_sync, true
 
 # role-based syntax
 # ==================

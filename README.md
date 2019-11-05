@@ -13,6 +13,19 @@ Edit `Capfile`
 require "capistrano/local_compile"
 ```
 
+Edit `config/initializers/asset_tasks.rb` to configure.
+
+If you use asset_sync, create `shares/config/asset_sync.yml` on server and edit `config/deploy/production.rb`
+
+```ruby
+append :linked_files, "config/asset_sync.yml"
+set :use_asset_sync, true
+```
+
+## Limitation
+
+* Please configure production database settings on local environment to precompile assets.
+
 ## Installation
 Add this line to your application's Gemfile:
 

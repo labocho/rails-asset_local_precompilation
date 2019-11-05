@@ -4,6 +4,7 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
+gem "asset_sync"
 gem "capistrano", "~> 3.11"
 gem "capistrano-bundler"
 gem "capistrano-rails"
@@ -12,6 +13,7 @@ gem "capistrano-scm-copy", "~> 0.7.0"
 gem "capistrano3-unicorn"
 gem "carrierwave"
 gem "ckeditor"
+gem "fog-aws"
 gem "mini_magick"
 gem "mysql2"
 gem "rails", "~> 6.0.0"
