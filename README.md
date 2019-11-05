@@ -25,25 +25,17 @@ set :fog_directory, "bucket-name"
 set :fog_region, "ap-northeast-1"
 ```
 
-## Limitation
-
-* Please configure production database settings on local environment to precompile assets.
 
 ## Installation
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'asset_tasks'
+gem 'rails-asset_local_precompilation', require: 'rails/asset_local_precompilation'
 ```
 
 And then execute:
 ```bash
 $ bundle
-```
-
-Or install it yourself as:
-```bash
-$ gem install asset_tasks
 ```
 
 ## Contributing

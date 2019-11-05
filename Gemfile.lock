@@ -2,9 +2,9 @@ PATH
   remote: .
   specs:
     rails-asset_local_precompilation (0.1.0)
-      activerecord-nulldb-adapter
+      activerecord-nulldb-adapter (~> 0.4)
       capistrano (~> 3.11)
-      rails (~> 6.0.0)
+      rails (>= 5.0.0)
 
 GEM
   remote: https://rubygems.org/

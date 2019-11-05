@@ -25,6 +25,7 @@ module Rails
           ckeditor/config_override.js
         )
 
+        Rails.application.config.assets.precompile += Dir.glob("ckeditor/filebrowser/thumbs/*", base: Ckeditor.root_path.join("app/assets/images").to_s).to_a # filebrowser icons
         Rails.application.config.assets.precompile += Dir.glob("ckeditor/plugins/**/*", base: (Rails.root + "app/assets/javascripts").to_s).to_a
       end
 
@@ -44,6 +45,10 @@ module Rails
           if config.use_ckeditor
             Ckeditor.setup do |config|
               config.asset_path = "#{asset_host}/assets/ckeditor/"
+
+              # ファイルブラウザでアップロードしたときにアイコンのパスが不適切なものになる問題に対応
+              config.relative_path = ActionController::Base.helpers.asset_path("/assets/ckeditor")
+              config.asset_path = "/assets/ckeditor/"
             end
           end
         end
@@ -55,6 +60,16 @@ module Rails
             Dir.chdir(public_root) do
               packs_dir = Webpacker.config.public_output_path.relative_path_from(public_root)
               Dir[File.join(packs_dir, "/**/**")]
+            end
+          end
+        end
+
+        if config.use_ckeditor
+          AssetSync.config.add_local_file_paths do
+            # add ckeditor files
+            public_root = Rails.root.join("public")
+            Dir.chdir(public_root) do
+              Dir["assets/ckeditor/**/*"]
             end
           end
         end
