@@ -59,3 +59,6 @@ set :use_asset_sync, true
 #     auth_methods: %w(publickey password)
 #     # password: "please use keys"
 #   }
+
+set :fog_directory, "asset-tasks-dev"
+set :fog_region, "ap-northeast-1"

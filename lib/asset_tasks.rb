@@ -30,11 +30,20 @@ module AssetTasks
     if config.use_asset_sync
       AssetSync.config.run_on_precompile = false
 
-      if (bucket = AssetSync.config.fog_directory)
-        Rails.application.config.action_controller.asset_host = if bucket["."]
-          "//s3.amazonaws.com/#{bucket}"
+      if (bucket = AssetSync.config.fog_directory || ENV["FOG_DIRECTORY"])
+        region = AssetSync.config.fog_region || ENV["FOG_REGION"]
+        asset_host = if bucket["."]
+          "//s3#{region && "-#{region}"}.amazonaws.com/#{bucket}"
         else
           "//#{bucket}.s3.amazonaws.com"
+        end
+
+        Rails.application.config.action_controller.asset_host = asset_host
+
+        if config.use_ckeditor
+          Ckeditor.setup do |config|
+            config.asset_path = "#{asset_host}/assets/ckeditor/"
+          end
         end
       end
 
@@ -50,6 +59,7 @@ module AssetTasks
       end
 
       # config.assets.initialize_on_precompile is set to true
+
     end
     # rubocop: enable Style/GuardClause
   end

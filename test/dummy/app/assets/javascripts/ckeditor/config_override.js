@@ -5,5 +5,6 @@
   CKEDITOR.editorConfig = function (config) {
     originalConfig(config);
     config.extraPlugins = 'showblocks';
+    config.toolbar = config.toolbar + {name: "plugins", items: ["ShowBlocks"]}
   }
 }());

@@ -20,6 +20,8 @@ If you use asset_sync, create `shares/config/asset_sync.yml` on server and edit 
 ```ruby
 append :linked_files, "config/asset_sync.yml"
 set :use_asset_sync, true
+set :fog_directory, "bucket-name"
+set :fog_region, "ap-northeast-1"
 ```
 
 ## Limitation
