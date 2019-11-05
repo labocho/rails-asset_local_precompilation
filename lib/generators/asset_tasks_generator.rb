@@ -9,9 +9,9 @@ class AssetTasksGenerator < Rails::Generators::Base
     RUBY
 
     create_file "app/assets/javascripts/ckeditor/register_plugins.js.erb", <<~ERB
-      <%- Dir.glob("*", base: Rails.root + "app/assets/javascripts/ckeditor/plugins").each do |plugin| -%>
+      <% Dir.glob("*", base: Rails.root + "app/assets/javascripts/ckeditor/plugins").each do |plugin| %>
       CKEDITOR.plugins.addExternal('<%= plugin %>', '<%= asset_path("/assets/ckeditor/plugins/\#{plugin}/plugin.js") %>');
-      <%- end -%>
+      <% end %>
     ERB
 
     create_file "app/assets/javascripts/ckeditor/config_override.js", <<~JS
