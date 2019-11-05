@@ -45,6 +45,8 @@ GEM
     activerecord (6.0.0)
       activemodel (= 6.0.0)
       activesupport (= 6.0.0)
+    activerecord-nulldb-adapter (0.4.0)
+      activerecord (>= 2.0.0)
     activestorage (6.0.0)
       actionpack (= 6.0.0)
       activejob (= 6.0.0)
@@ -228,6 +230,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-nulldb-adapter
   asset_sync
   capistrano (~> 3.11)
   capistrano-bundler

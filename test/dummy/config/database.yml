@@ -22,6 +22,6 @@ test:
   <<: *default
   database: asset_tasks_test
 
-production:
-  <<: *default
-  database: asset_tasks
+# production:
+#   <<: *default
+#   database: asset_tasks
