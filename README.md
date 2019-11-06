@@ -4,8 +4,8 @@ Set of capistrano task and initializer for local asset precompilation with asset
 
 ## Usage
 
-```ruby
-rails g asset_local_precompilation
+```bash
+rails g asset_local_precompilation:install
 ```
 
 Edit `Capfile`
@@ -16,7 +16,9 @@ require "capistrano/asset_local_precompilation"
 
 Edit `config/initializers/asset_local_precompilation.rb` to configure.
 
-If you use asset_sync, create `shares/config/asset_sync.yml` on server and edit `config/deploy/production.rb`
+### asset_sync
+
+If you use asset_sync, create `shared/config/asset_sync.yml` on server and edit `config/deploy/production.rb`
 
 ```ruby
 append :linked_files, "config/asset_sync.yml"
@@ -25,12 +27,19 @@ set :fog_directory, "bucket-name"
 set :fog_region, "ap-northeast-1"
 ```
 
+### ckeditor
+
+```bash
+rails g asset_local_precompilation:ckeditor
+```
+
+Edit `config/initializers/ckeditor.rb` and `assets/javascripts/ckeditor/config_override.js`
 
 ## Installation
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rails-asset_local_precompilation', require: 'rails/asset_local_precompilation'
+gem "rails-asset_local_precompilation", git: "https://github.com/labocho/rails-asset_local_precompilation.git", require: "rails/asset_local_precompilation"
 ```
 
 And then execute:
