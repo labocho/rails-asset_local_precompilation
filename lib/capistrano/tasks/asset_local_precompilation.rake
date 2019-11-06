@@ -5,6 +5,8 @@ set :fog_region, nil
 
 namespace :assets do
   task :local_precompile_and_sync do
+    use_webpacker = false
+
     run_locally do
       # 通常 assets:precompile 後にassets:syncが実行されるが、config/initializers/asset_sync.rb で config.run_on_precompile = false としてこの動作を止めている。
       # assets:precompile 後に webpacker:compile が呼ばれる
@@ -19,16 +21,16 @@ namespace :assets do
         execute "bundle exec rake assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)}"
       end
 
-      execute "yarn install --check-files"
+      execute "yarn install --check-files" if (use_webpacker = ::Dir.exist?("public/packs"))
     end
 
     on roles(:web) do |server|
       execute :mkdir, "-pv", "#{release_path}/public/assets"
-      execute :mkdir, "-pv", "#{release_path}/public/packs"
+      execute :mkdir, "-pv", "#{release_path}/public/packs" if use_webpacker
 
       run_locally do
         execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", "public/assets/", "#{server.user}@#{server.hostname}:#{release_path}/public/assets"
-        execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", "public/packs/", "#{server.user}@#{server.hostname}:#{release_path}/public/packs"
+        execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", "public/packs/", "#{server.user}@#{server.hostname}:#{release_path}/public/packs" if use_webpacker
       end
 
       if fetch(:use_asset_sync)
