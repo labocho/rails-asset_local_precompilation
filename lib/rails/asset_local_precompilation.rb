@@ -14,21 +14,6 @@ module Rails
 
     # rubocop: disable Style/GuardClause
     def self.initialize!
-      if config.use_ckeditor
-        Ckeditor.setup do |config|
-          config.js_config_url = "ckeditor/config_override.js"
-        end
-
-        Rails.application.config.assets.precompile += %w(
-          ckeditor/application.css
-          ckeditor/application.js
-          ckeditor/config_override.js
-        )
-
-        Rails.application.config.assets.precompile += Dir.glob("ckeditor/filebrowser/thumbs/*", base: Ckeditor.root_path.join("app/assets/images").to_s).to_a # filebrowser icons
-        Rails.application.config.assets.precompile += Dir.glob("ckeditor/plugins/**/*", base: (Rails.root + "app/assets/javascripts").to_s).to_a
-      end
-
       if config.use_asset_sync
         AssetSync.config.run_on_precompile = false
 
@@ -41,16 +26,6 @@ module Rails
           end
 
           Rails.application.config.action_controller.asset_host = asset_host
-
-          if config.use_ckeditor
-            Ckeditor.setup do |config|
-              config.asset_path = "#{asset_host}/assets/ckeditor/"
-
-              # ファイルブラウザでアップロードしたときにアイコンのパスが不適切なものになる問題に対応
-              config.relative_path = ActionController::Base.helpers.asset_path("/assets/ckeditor")
-              config.asset_path = "/assets/ckeditor/"
-            end
-          end
         end
 
         if defined?(Webpacker)
@@ -73,6 +48,25 @@ module Rails
             end
           end
         end
+      end
+
+      if config.use_ckeditor
+        Ckeditor.setup do |config|
+          config.js_config_url = "ckeditor/config_override.js"
+
+          # ファイルブラウザでアップロードしたときにアイコンのパスが不適切なものになる問題に対応
+          config.relative_path = ActionController::Base.helpers.asset_path("/assets/ckeditor")
+          config.asset_path = "/assets/ckeditor/"
+        end
+
+        Rails.application.config.assets.precompile += %w(
+          ckeditor/application.css
+          ckeditor/application.js
+          ckeditor/config_override.js
+        )
+
+        Rails.application.config.assets.precompile += Dir.glob("ckeditor/filebrowser/thumbs/*", base: Ckeditor.root_path.join("app/assets/images").to_s).to_a # filebrowser icons
+        Rails.application.config.assets.precompile += Dir.glob("ckeditor/plugins/**/*", base: (Rails.root + "app/assets/javascripts").to_s).to_a
       end
       # rubocop: enable Style/GuardClause
     end
