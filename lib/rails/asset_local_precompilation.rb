@@ -12,21 +12,25 @@ module Rails
       yield config
     end
 
+    def self.asset_host
+      return config.asset_host if config.asset_host
+
+      return unless (bucket = AssetSync.config.fog_directory || ENV["FOG_DIRECTORY"])
+
+      region = AssetSync.config.fog_region || ENV["FOG_REGION"]
+      if bucket["."]
+        "//s3#{region && "-#{region}"}.amazonaws.com/#{bucket}"
+      else
+        "//#{bucket}.s3.amazonaws.com"
+      end
+    end
+
     # rubocop: disable Style/GuardClause
     def self.initialize!
       if config.use_asset_sync
         AssetSync.config.run_on_precompile = false
 
-        if (bucket = AssetSync.config.fog_directory || ENV["FOG_DIRECTORY"])
-          region = AssetSync.config.fog_region || ENV["FOG_REGION"]
-          asset_host = if bucket["."]
-            "//s3#{region && "-#{region}"}.amazonaws.com/#{bucket}"
-          else
-            "//#{bucket}.s3.amazonaws.com"
-          end
-
-          Rails.application.config.action_controller.asset_host = asset_host
-        end
+        Rails.application.config.action_controller.asset_host = asset_host
 
         if defined?(Webpacker)
           AssetSync.config.add_local_file_paths do

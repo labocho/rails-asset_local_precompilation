@@ -5,6 +5,7 @@ module AssetLocalPrecompilation
         Rails::AssetLocalPrecompilation.configure do |config|
           # config.use_asset_sync = true # default: false
           # config.use_ckeditor = true # default: false
+          # config.asset_host = "//assets.example.com" # to use S3 backended CloudFront, default: nil (guess from AssetSync.config.fog_directory)
         end
         Rails::AssetLocalPrecompilation.initialize!
       RUBY
