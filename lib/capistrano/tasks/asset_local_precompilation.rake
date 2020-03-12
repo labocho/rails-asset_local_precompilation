@@ -5,6 +5,7 @@ set :fog_region, nil
 
 namespace :assets do
   task :local_precompile_and_sync do
+    use_sprockets = true
     use_webpacker = false
 
     run_locally do
@@ -22,14 +23,15 @@ namespace :assets do
       end
 
       execute "yarn install --check-files" if (use_webpacker = ::Dir.exist?("public/packs"))
+      use_sprockets = ::Dir.exist?("public/assets")
     end
 
     on roles(:web) do |server|
-      execute :mkdir, "-pv", "#{release_path}/public/assets"
+      execute :mkdir, "-pv", "#{release_path}/public/assets" if use_sprockets
       execute :mkdir, "-pv", "#{release_path}/public/packs" if use_webpacker
 
       run_locally do
-        execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", "public/assets/", "#{server.user}@#{server.hostname}:#{release_path}/public/assets"
+        execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", "public/assets/", "#{server.user}@#{server.hostname}:#{release_path}/public/assets" if use_sprockets
         execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", "public/packs/", "#{server.user}@#{server.hostname}:#{release_path}/public/packs" if use_webpacker
       end
 
