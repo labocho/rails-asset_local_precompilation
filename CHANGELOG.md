@@ -1,3 +1,7 @@
+# v0.1.4 (2020-03-12)
+
+* fix error when public/assets not exists
+
 # v0.1.3 (2019-11-15)
 
 * support custom asset_host (eg. S3 backended CloudFront)
