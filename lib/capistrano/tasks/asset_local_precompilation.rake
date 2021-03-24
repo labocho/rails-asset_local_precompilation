@@ -12,7 +12,7 @@ namespace :assets do
       # 通常 assets:precompile 後にassets:syncが実行されるが、config/initializers/asset_sync.rb で config.run_on_precompile = false としてこの動作を止めている。
       # assets:precompile 後に webpacker:compile が呼ばれる
       # tmp/cache/assets があると、ckeditor の asset_path の変更が反映されない場合がある
-      execute "rm -rf public/assets public/packs tmp/cache/assets"
+      execute "rm -rf public/assets public/packs tmp/cache/assets tmp/cache/webpacker"
 
       if fetch(:use_asset_sync)
         raise "Please set fog_directory" unless fetch(:fog_directory)
