@@ -22,6 +22,7 @@ namespace :assets do
         execute "rake assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)}"
       end
 
+      use_webpacker = ::Dir.exist?("public/packs")
       use_sprockets = ::Dir.exist?("public/assets")
     end
 
