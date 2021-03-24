@@ -22,7 +22,6 @@ namespace :assets do
         execute "rake assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)}"
       end
 
-      execute "yarn install --check-files" if (use_webpacker = ::Dir.exist?("public/packs"))
       use_sprockets = ::Dir.exist?("public/assets")
     end
 
@@ -40,6 +39,11 @@ namespace :assets do
           execute :bundle, "exec rake assets:sync --trace RAILS_ENV=#{fetch(:rails_env)}"
         end
       end
+    end
+
+    run_locally do
+      execute "yarn install --check-files" if use_webpacker
+      execute "rm -rf public/assets public/packs"
     end
   end
 
