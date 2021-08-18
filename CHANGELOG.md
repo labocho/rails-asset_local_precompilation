@@ -1,3 +1,7 @@
+# v0.1.9 (2021-08-18)
+
+* fix version number
+
 # v0.1.8 (2021-03-24)
 
 * avoid breaking manifest.json by 'yarn install --check-files' and clear after sync
