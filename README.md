@@ -2,6 +2,18 @@
 
 Set of capistrano task and initializer for local asset precompilation with asset_sync, ckeditor.
 
+## Installation
+Add this line to your application's Gemfile:
+
+```ruby
+gem "rails-asset_local_precompilation", git: "https://github.com/labocho/rails-asset_local_precompilation.git", require: "rails/asset_local_precompilation"
+```
+
+And then execute:
+```bash
+$ bundle
+```
+
 ## Usage
 
 ```bash
@@ -10,8 +22,9 @@ rails g asset_local_precompilation:install
 
 Edit `Capfile`
 
-```ruby
-require "capistrano/asset_local_precompilation"
+```diff
+- require 'capistrano/rails/assets'
++ require "capistrano/asset_local_precompilation"
 ```
 
 Edit `config/initializers/asset_local_precompilation.rb` to configure.
@@ -34,18 +47,6 @@ rails g asset_local_precompilation:ckeditor
 ```
 
 Edit `config/initializers/ckeditor.rb` and `assets/javascripts/ckeditor/config_override.js`
-
-## Installation
-Add this line to your application's Gemfile:
-
-```ruby
-gem "rails-asset_local_precompilation", git: "https://github.com/labocho/rails-asset_local_precompilation.git", require: "rails/asset_local_precompilation"
-```
-
-And then execute:
-```bash
-$ bundle
-```
 
 ## Contributing
 Contribution directions go here.
