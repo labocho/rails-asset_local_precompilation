@@ -17,7 +17,7 @@ namespace :assets do
       if fetch(:use_asset_sync)
         raise "Please set fog_directory" unless fetch(:fog_directory)
 
-        execute "rake assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)} DATABASE_URL=nulldb://localhost FOG_DIRECTORY=#{fetch(:fog_directory)} FOG_REGION=#{fetch(:fog_region)}"
+        execute "DATABASE_URL=nulldb://localhost rake assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)} FOG_DIRECTORY=#{fetch(:fog_directory)} FOG_REGION=#{fetch(:fog_region)}"
       else
         execute "rake assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)}"
       end
