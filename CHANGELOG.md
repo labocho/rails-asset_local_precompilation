@@ -1,5 +1,9 @@
 # v0.1.10 (2021-10-26)
 
+* use use nulldb when precompile assets always
+
+# v0.1.10 (2021-10-26)
+
 * avoid actual db access by model class methods (e.g. `column_names`) during `rake assets:precompile`.
 
 # v0.1.9 (2021-08-18)
