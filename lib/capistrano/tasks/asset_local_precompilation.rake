@@ -19,7 +19,7 @@ namespace :assets do
 
         execute "DATABASE_URL=nulldb://localhost rake assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)} FOG_DIRECTORY=#{fetch(:fog_directory)} FOG_REGION=#{fetch(:fog_region)}"
       else
-        execute "rake assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)}"
+        execute "DATABASE_URL=nulldb://localhost rake assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)}"
       end
 
       use_webpacker = ::Dir.exist?("public/packs")
