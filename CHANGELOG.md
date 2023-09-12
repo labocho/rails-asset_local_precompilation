@@ -1,4 +1,8 @@
-# v0.1.10 (2021-10-26)
+# v0.1.12 (2023-09-12)
+
+* support `asset_host` option to set asset_host on precompilation.
+
+# v0.1.11 (2021-10-26)
 
 * use use nulldb when precompile assets always
 
