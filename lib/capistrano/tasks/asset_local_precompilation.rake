@@ -2,6 +2,7 @@ set :rsync_ssh_command, "ssh"
 set :use_asset_sync, false
 set :fog_directory, nil
 set :fog_region, nil
+set :asset_host, nil # bootstrap-sass gem など precompile 時に asset_host を使う場合に指定する必要がある
 
 namespace :assets do
   task :local_precompile_and_sync do
@@ -17,7 +18,7 @@ namespace :assets do
       if fetch(:use_asset_sync)
         raise "Please set fog_directory" unless fetch(:fog_directory)
 
-        execute "DATABASE_URL=nulldb://localhost rake assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)} FOG_DIRECTORY=#{fetch(:fog_directory)} FOG_REGION=#{fetch(:fog_region)}"
+        execute "DATABASE_URL=nulldb://localhost rake assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)} FOG_DIRECTORY=#{fetch(:fog_directory)} FOG_REGION=#{fetch(:fog_region)} ASSET_HOST=#{fetch(:asset_host)}"
       else
         execute "DATABASE_URL=nulldb://localhost rake assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)}"
       end

@@ -13,6 +13,7 @@ module Rails
     end
 
     def self.asset_host
+      return ENV["ASSET_HOST"] if ENV["ASSET_HOST"].to_s.size > 0
       return config.asset_host if config.asset_host
 
       return unless (bucket = AssetSync.config.fog_directory || ENV["FOG_DIRECTORY"])
