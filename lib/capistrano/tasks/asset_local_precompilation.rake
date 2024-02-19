@@ -8,6 +8,7 @@ namespace :assets do
   task :local_precompile_and_sync do
     use_sprockets = true
     use_webpacker = false
+    use_vite = false
 
     run_locally do
       # 通常 assets:precompile 後にassets:syncが実行されるが、config/initializers/asset_sync.rb で config.run_on_precompile = false としてこの動作を止めている。
@@ -25,15 +26,18 @@ namespace :assets do
 
       use_webpacker = ::Dir.exist?("public/packs")
       use_sprockets = ::Dir.exist?("public/assets")
+      use_vite = ::Dir.exist?("public/.vite")
     end
 
     on roles(:web) do |server|
       execute :mkdir, "-pv", "#{release_path}/public/assets" if use_sprockets
       execute :mkdir, "-pv", "#{release_path}/public/packs" if use_webpacker
+      execute :mkdir, "-pv", "#{release_path}/public/.vite" if use_vite
 
       run_locally do
         execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", "public/assets/", "#{server.user}@#{server.hostname}:#{release_path}/public/assets" if use_sprockets
         execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", "public/packs/", "#{server.user}@#{server.hostname}:#{release_path}/public/packs" if use_webpacker
+        execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", "public/.vite/", "#{server.user}@#{server.hostname}:#{release_path}/public/.vite" if use_vite
       end
 
       if fetch(:use_asset_sync)
