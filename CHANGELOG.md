@@ -1,3 +1,7 @@
+# v0.1.14 (2024-02-19)
+
+* support Vite's manifest file (`public/.vite/manifest.json`).
+
 # v0.1.12 (2023-09-12)
 
 * support `asset_host` option to set asset_host on precompilation.
