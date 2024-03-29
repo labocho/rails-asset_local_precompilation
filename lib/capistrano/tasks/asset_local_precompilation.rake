@@ -3,6 +3,9 @@ set :use_asset_sync, false
 set :fog_directory, nil
 set :fog_region, nil
 set :asset_host, nil # bootstrap-sass gem など precompile 時に asset_host を使う場合に指定する必要がある
+set :local_precompilation_env, -> {
+  {"SECRET_KEY_BASE": ENV.fetch("SECRET_KEY_BASE", "DUMMY")}
+}
 
 namespace :assets do
   task :local_precompile_and_sync do
@@ -16,13 +19,22 @@ namespace :assets do
       # tmp/cache/assets があると、ckeditor の asset_path の変更が反映されない場合がある
       execute "rm -rf public/assets public/packs tmp/cache/assets tmp/cache/webpacker"
 
+      env = {
+        DATABASE_URL: "nulldb://localhost",
+        RAILS_ENV: fetch(:rails_env),
+      }.merge(fetch(:local_precompilation_env))
+
       if fetch(:use_asset_sync)
         raise "Please set fog_directory" unless fetch(:fog_directory)
 
-        execute "DATABASE_URL=nulldb://localhost rake assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)} FOG_DIRECTORY=#{fetch(:fog_directory)} FOG_REGION=#{fetch(:fog_region)} ASSET_HOST=#{fetch(:asset_host)}"
-      else
-        execute "DATABASE_URL=nulldb://localhost rake assets:precompile --trace RAILS_ENV=#{fetch(:rails_env)}"
+        env.merge!(
+          FOG_DIRECTORY: fetch(:fog_directory),
+          FOG_REGION: fetch(:fog_region),
+          ASSET_HOST: fetch(:asset_host),
+        )
       end
+
+      execute "rake assets:precompile --trace #{env.map {|k, v| "#{k}=#{v}" }.join(" ")}"
 
       use_webpacker = ::Dir.exist?("public/packs")
       use_sprockets = ::Dir.exist?("public/assets")
