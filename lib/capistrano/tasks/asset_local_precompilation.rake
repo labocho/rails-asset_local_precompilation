@@ -1,5 +1,6 @@
 set :rsync_ssh_command, "ssh"
 set :use_asset_sync, false
+set :use_yarn, true
 set :fog_directory, nil
 set :fog_region, nil
 set :asset_host, nil # bootstrap-sass gem など precompile 時に asset_host を使う場合に指定する必要がある
@@ -60,7 +61,7 @@ namespace :assets do
     end
 
     run_locally do
-      execute "yarn install --check-files" if use_webpacker
+      execute "yarn install --check-files" if fetch(:use_yarn)
       execute "rm -rf public/assets public/packs"
     end
   end
