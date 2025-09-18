@@ -1,3 +1,5 @@
+require "shellwords"
+
 set :rsync_ssh_command, "ssh"
 set :use_asset_sync, false
 set :use_yarn, true
@@ -7,18 +9,27 @@ set :asset_host, nil # bootstrap-sass gem など precompile 時に asset_host �
 set :local_precompilation_env, -> {
   {"SECRET_KEY_BASE": ENV.fetch("SECRET_KEY_BASE", "DUMMY")}
 }
+# precompile して rsync する assets のディレクトリのリスト
+# 設定ファイルの有無から推測する
+set :local_precompilation_assets_dirs, -> {
+  defaults = []
+  defaults << "public/assets" if File.exist?("app/assets/config/manifest.js")
+  defaults << "public/packs" if File.exist?("config/webpacker.yml") || File.exist?("webpack.config.js")
+  if File.exist?("vite.config.js")
+    defaults << "public/packs"
+    defaults << "public/.vite"
+  end
+  defaults.uniq!
+  defaults
+}
 
 namespace :assets do
   task :local_precompile_and_sync do
-    use_sprockets = true
-    use_webpacker = false
-    use_vite = false
-
     run_locally do
       # 通常 assets:precompile 後にassets:syncが実行されるが、config/initializers/asset_sync.rb で config.run_on_precompile = false としてこの動作を止めている。
       # assets:precompile 後に webpacker:compile が呼ばれる
       # tmp/cache/assets があると、ckeditor の asset_path の変更が反映されない場合がある
-      execute "rm -rf public/assets public/packs tmp/cache/assets tmp/cache/webpacker"
+      execute "rm -rf #{fetch(:local_precompilation_assets_dirs).shelljoin} tmp/cache/assets tmp/cache/webpacker"
 
       env = {
         DATABASE_URL: "nulldb://localhost",
@@ -36,21 +47,17 @@ namespace :assets do
       end
 
       execute "rake assets:precompile --trace #{env.map {|k, v| "#{k}=#{v}" }.join(" ")}"
-
-      use_webpacker = ::Dir.exist?("public/packs")
-      use_sprockets = ::Dir.exist?("public/assets")
-      use_vite = ::Dir.exist?("public/.vite")
     end
 
     on roles(:web) do |server|
-      execute :mkdir, "-pv", "#{release_path}/public/assets" if use_sprockets
-      execute :mkdir, "-pv", "#{release_path}/public/packs" if use_webpacker
-      execute :mkdir, "-pv", "#{release_path}/public/.vite" if use_vite
+      fetch(:local_precompilation_assets_dirs).each do |assets_dir|
+        execute :mkdir, "-pv", "#{release_path}/#{assets_dir}"
+      end
 
       run_locally do
-        execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", "public/assets/", "#{server.user}@#{server.hostname}:#{release_path}/public/assets" if use_sprockets
-        execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", "public/packs/", "#{server.user}@#{server.hostname}:#{release_path}/public/packs" if use_webpacker
-        execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", "public/.vite/", "#{server.user}@#{server.hostname}:#{release_path}/public/.vite" if use_vite
+        fetch(:local_precompilation_assets_dirs).each do |assets_dir|
+          execute :rsync, "-e", fetch(:rsync_ssh_command).shellescape, "-rv", "#{assets_dir}/", "#{server.user}@#{server.hostname}:#{release_path}/#{assets_dir}/"
+        end
       end
 
       if fetch(:use_asset_sync)
@@ -61,8 +68,8 @@ namespace :assets do
     end
 
     run_locally do
-      execute "yarn install --check-files" if fetch(:use_yarn)
-      execute "rm -rf public/assets public/packs"
+      execute "yarn install --check-files" if File.exist?("yarn.lock")
+      execute "rm -rf #{fetch(:local_precompilation_assets_dirs).shelljoin}"
     end
   end
 
