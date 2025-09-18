@@ -1,4 +1,5 @@
 require "rails/asset_local_precompilation/railtie"
+require "activerecord-nulldb-adapter" # avoid ActiveRecord::AdapterNotFound
 
 module Rails
   module AssetLocalPrecompilation
