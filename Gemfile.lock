@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails-asset_local_precompilation (0.1.17)
+    rails-asset_local_precompilation (0.1.18)
       activerecord-nulldb-adapter (>= 0.4)
       capistrano (~> 3.11)
       rails (>= 5.0.0)
@@ -239,4 +239,4 @@ DEPENDENCIES
   sqlite3 (>= 1.4.1)
 
 BUNDLED WITH
-   2.1.2
+  4.0.2
