@@ -15,7 +15,7 @@ set :local_precompilation_assets_dirs, -> {
   defaults = []
   defaults << "public/assets" if File.exist?("app/assets/config/manifest.js")
   defaults << "public/packs" if File.exist?("config/webpacker.yml") || File.exist?("webpack.config.js")
-  if File.exist?("vite.config.js")
+  if File.exist?("vite.config.js") || File.exist?("vite.config.ts")
     defaults << "public/packs"
     defaults << "public/.vite"
   end
